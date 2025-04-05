@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "390888525321",
+    "project_id": "pageflow-bdba0",
+    "storage_bucket": "pageflow-bdba0.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:390888525321:android:00cf0e92d4034db7dd32d8",
+        "android_client_info": {
+          "package_name": "com.example.pageflow"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAxfgGnNuv-MQH7vshTUcWJrG5j9JYX600"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
