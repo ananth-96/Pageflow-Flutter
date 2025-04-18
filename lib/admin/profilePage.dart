@@ -2,10 +2,11 @@ import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
-import 'package:pageflow/admin/admin_edit_profile.dart';
-import 'package:pageflow/admin/admin_home_page.dart';
-import 'package:pageflow/user/signin_page.dart';
+import 'package:pageflow/admin/editProfilePage.dart';
+import 'package:pageflow/admin/homePage.dart';
+import 'package:pageflow/user/signinPage.dart';
 import 'package:path_provider/path_provider.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class AdminProfilePage extends StatefulWidget {
   const AdminProfilePage({super.key});
@@ -34,13 +35,13 @@ class _AdminProfilePageState extends State<AdminProfilePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        leading: Icon(Icons.arrow_back),
+      appBar: AppBar(automaticallyImplyLeading: false,
+       
         title: Text(
           'Admin Dashboard',
           style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
         ),
-        centerTitle: true,
+        centerTitle: true,shadowColor: Colors.brown.withOpacity(0.5)
       ),
       body: Padding(
         padding: const EdgeInsets.only(left: 135, top: 50),
@@ -78,7 +79,7 @@ class _AdminProfilePageState extends State<AdminProfilePage> {
                 ),
               ],
             ),
-            Text('Nandakrishnan'),
+            Text('Administrator', style: TextStyle(fontSize: 23,fontWeight: FontWeight.w600)),
             SizedBox(height: 15),
             GestureDetector(
               onTap: () {
@@ -88,24 +89,42 @@ class _AdminProfilePageState extends State<AdminProfilePage> {
                 );
               },
               child: Container(
-                height: 30,
-                width: 40,
-                child: Text('EDIT PROFILE', style: TextStyle(fontSize: 17)),
+                height: 50,
+                width: 150,
+
+                decoration: BoxDecoration(color: Colors.green,
+                  borderRadius: BorderRadius.circular(10),
+                ),
+                child: Center(child: Text('EDIT PROFILE', style: TextStyle(fontSize: 17))),
               ),
             ),
             SizedBox(height: 15),
             GestureDetector(
-              onTap: () {
-                Navigator.pushReplacement(
-                  context,
-                  MaterialPageRoute(builder: (context) => LoginPage()),
-                );
+              onTap: () async {
+                await showDialog(context: context, builder: (BuildContext){
+                  return AlertDialog(title: Text('Are you sure you want to logout',style: TextStyle(fontSize: 16),),actions: [
+                    TextButton(onPressed: (){_logoutState(context);
+
+                    }, child: Text('Yes',style: TextStyle(color: Colors.red),)),TextButton(onPressed: (){
+                      Navigator.of(context).pop();
+                    }, child: Text('No'))
+                  ],);
+                });
+
+
+
+
+
+               
+                
               },
 
               child: Container(
-                height: 30,
-                width: 40,
-                child: Text('LOG OUT', style: TextStyle(fontSize: 17)),
+                decoration: BoxDecoration(borderRadius: BorderRadius.circular(10),color: Colors.green,),
+                
+                height: 50,
+                width: 150,
+                child: Center(child: Text('LOG OUT', style: TextStyle(fontSize: 17))),
               ),
             ),
           ],
@@ -132,4 +151,15 @@ class _AdminProfilePageState extends State<AdminProfilePage> {
       ),
     );
   }
+}
+
+void _logoutState(context)async{
+
+  SharedPreferences prefs=await SharedPreferences.getInstance();
+  await prefs.clear();
+  Navigator.pushReplacement(
+                  context,
+                  MaterialPageRoute(builder: (context) => LoginPage()),
+                );
+
 }

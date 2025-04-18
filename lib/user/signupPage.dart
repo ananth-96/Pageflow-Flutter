@@ -2,8 +2,8 @@ import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:pageflow/services/database.dart';
-import 'package:pageflow/user/signin_page.dart';
-import 'package:pageflow/user/user_home_page.dart';
+import 'package:pageflow/user/signinPage.dart';
+import 'package:pageflow/user/userHomePage.dart';
 
 class SignupPage extends StatelessWidget {
   const SignupPage({super.key});
@@ -12,6 +12,9 @@ class SignupPage extends StatelessWidget {
   Widget build(BuildContext context) {
     TextEditingController emailController = TextEditingController();
     TextEditingController passwordController = TextEditingController();
+    TextEditingController firstNameController = TextEditingController();
+TextEditingController lastNameController = TextEditingController();
+
     GlobalKey<FormState> formKey = GlobalKey();
     return Scaffold(
       body: Container(
@@ -42,10 +45,11 @@ class SignupPage extends StatelessWidget {
                   mainAxisAlignment: MainAxisAlignment.center,
                   crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
-                    TextFormField(
+                    TextFormField(controller: firstNameController,
                       decoration: InputDecoration(
                         prefixIcon: Icon(Icons.person_3_outlined),
                         hintText: 'First Name',
+                        
                         fillColor: Colors.white,
                         filled: true,
                         border: OutlineInputBorder(
@@ -55,7 +59,7 @@ class SignupPage extends StatelessWidget {
                       ),
                     ),
                     SizedBox(height: 20),
-                    TextFormField(
+                    TextFormField(controller: lastNameController,
                       decoration: InputDecoration(
                         prefixIcon: Icon(Icons.person_3_outlined),
                         hintText: 'Last Name',
@@ -129,7 +133,7 @@ class SignupPage extends StatelessWidget {
                             bool isSumbitted =
                                 await DatabaseServices.signUpuserFirebase(
                                   emailController.text,
-                                  passwordController.text,
+                                  passwordController.text,firstNameController.text,lastNameController.text
                                 );
                             if (isSumbitted) {
                               ScaffoldMessenger.of(context).showSnackBar(

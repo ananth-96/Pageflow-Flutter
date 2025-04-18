@@ -1,11 +1,10 @@
-
-  import 'dart:io';
+import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
-import 'package:pageflow/admin/admin_home_page.dart';
-import 'package:pageflow/admin/admin_profile_page.dart';
-  import 'package:path_provider/path_provider.dart';
+import 'package:pageflow/admin/homePage.dart';
+import 'package:pageflow/admin/profilePage.dart';
+import 'package:path_provider/path_provider.dart';
 
 class AdminEditProfile extends StatefulWidget {
   const AdminEditProfile({super.key});
@@ -34,15 +33,17 @@ class _AdminEditProfileState extends State<AdminEditProfile> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        leading: Icon(Icons.arrow_back),
+        automaticallyImplyLeading: false,
         title: Text(
           'Admin Dashboard',
           style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
         ),
         centerTitle: true,
+        shadowColor: Colors.brown.withOpacity(0.5),
       ),
       body: Column(
         children: [
+          SizedBox(height: 40),
           Stack(
             children: [
               ClipOval(
@@ -76,29 +77,36 @@ class _AdminEditProfileState extends State<AdminEditProfile> {
               ),
             ],
           ),
-          Text("Username"),
-          TextFormField(
-            decoration: InputDecoration(
-              border: OutlineInputBorder(
-                borderRadius: BorderRadius.circular(10),
+          SizedBox(height: 80),
+          Container(
+            height: 50,
+            decoration: BoxDecoration(
+              borderRadius: BorderRadius.circular(10),
+              color: Colors.blue.shade400,
+            ),
+            child: TextFormField(
+              textAlign: TextAlign.center,
+              decoration: InputDecoration(
+                hintText: 'Name',
+                hintStyle: TextStyle(fontSize: 18),
+                border: InputBorder.none,
               ),
             ),
           ),
-          SizedBox(height: 10),
-          Text("Password"),
-          TextFormField(
-            decoration: InputDecoration(
-              border: OutlineInputBorder(
-                borderRadius: BorderRadius.circular(10),
-              ),
+
+          SizedBox(height: 40),
+          Container(
+            height: 50,
+            decoration: BoxDecoration(
+              borderRadius: BorderRadius.circular(10),
+              color: Colors.blue.shade400,
             ),
-          ),
-          SizedBox(height: 10),
-          Text('Phone Number'),
-          TextFormField(
-            decoration: InputDecoration(
-              border: OutlineInputBorder(
-                borderRadius: BorderRadius.circular(10),
+            child: TextFormField(
+              textAlign: TextAlign.center,
+              decoration: InputDecoration(
+                hintText: 'Phone Number',
+                hintStyle: TextStyle(fontSize: 18),
+                border: InputBorder.none,
               ),
             ),
           ),
