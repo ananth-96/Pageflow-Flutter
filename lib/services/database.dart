@@ -46,4 +46,37 @@ class DatabaseServices {
       return false;
     }
   }
+
+  static Future<bool> recentlyViewed(
+    Map<String, dynamic> bookData,
+    String userId,
+  ) async {
+    try {
+      bookData['timeStamp'] = FieldValue.serverTimestamp();
+      final bookId = bookData['id'];
+
+      if (bookId == null) {
+        throw Exception("Book ID is missing");
+      }
+      await FirebaseFirestore.instance
+          .collection('User recently viewed')
+          .doc(userId)
+          .collection('books')
+          .doc(bookId)
+          .set(bookData, SetOptions(merge: true));
+      return true;
+    } catch (e) {
+      print(e);
+      return false;
+    }
+  }
+
+
+  Stream <List<Map<String,dynamic>>> getbooks(String userId) {
+   
+   return FirebaseFirestore.instance.collection('User recently viewed').doc(userId)
+          .collection('books').orderBy('timeStamp',descending: true).limit(5).snapshots().map((snapshot)=>snapshot.docs.map((doc)=>doc.data()).toList());
+
+  }
+  
 }

@@ -3,6 +3,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:just_audio/just_audio.dart';
+import 'package:pageflow/user/musicPlayer.dart';
 import 'package:pageflow/user/pdfViewerpage.dart';
 import 'package:pageflow/user/viewPDF.dart';
 import 'package:syncfusion_flutter_pdfviewer/pdfviewer.dart';
@@ -17,49 +18,19 @@ class BookDetailsPage extends StatefulWidget {
 
 class _BookDetailsPageState extends State<BookDetailsPage> {
     final GlobalKey<SfPdfViewerState> _pdfViewerKey = GlobalKey();
-  late AudioPlayer _audioPlayer;
+ 
   bool isFavourited = false;
-  bool isPlaying = false;
+ 
 
   @override
   void initState() {
     super.initState();
     checkIfFavourited();
-    _initAudioPlayer();
     print(widget.bookData);
     print(FirebaseAuth.instance.currentUser?.uid);
   }
 
-  Future<void> _initAudioPlayer() async {
-    _audioPlayer = AudioPlayer();
-    final session = await AudioSession.instance;
-    await session.configure(AudioSessionConfiguration.music());
-
-    final audioUrl = widget.bookData['audioUrl'];
-    if (audioUrl != null && audioUrl.isNotEmpty) {
-      try {
-        await _audioPlayer.setUrl(audioUrl);
-      } catch (e) {
-        print('Error loading audio: $e');
-      }
-    }
-  }
-
-  void _togglePlayPause() {
-    if (_audioPlayer.playing) {
-      _audioPlayer.pause();
-      setState(() => isPlaying = false);
-    } else {
-      _audioPlayer.play();
-      setState(() => isPlaying = true);
-    }
-  }
-
-  @override
-  void dispose() {
-    _audioPlayer.dispose();
-    super.dispose();
-  }
+  
 
   Future<void> checkIfFavourited() async {
     final bookId = widget.bookData['id'];
@@ -208,14 +179,10 @@ class _BookDetailsPageState extends State<BookDetailsPage> {
                 ),
                 SizedBox(width: 10),
                 CustomCircularIconButton(
-                  onPressed: _togglePlayPause,
-                  icon: Icon(
-                    isPlaying
-                        ? Icons.pause_circle_filled_rounded
-                        : Icons.play_circle_fill_rounded,
-                    color: Colors.black,
-                  ),
+                  onPressed: (){Navigator.of(context).push(MaterialPageRoute(builder: (context)=>MusicView(userData:widget.bookData)));},
+                icon: Icon(Icons.play_circle_fill_outlined),
                 ),
+               
               ],
             ),
             const SizedBox(height: 15),

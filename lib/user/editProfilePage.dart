@@ -18,7 +18,7 @@ class UserEditProfile extends StatefulWidget {
 
 class UserEditProfileState extends State<UserEditProfile> {
   File? _image;
-  String? imageUrl='';
+  String? imageUrl='https://www.shutterstock.com/image-vector/user-profile-icon-vector-avatar-600nw-2247726673.jpg';
   TextEditingController nameController = TextEditingController();
   TextEditingController phoneController = TextEditingController();
   final userId=FirebaseAuth.instance.currentUser!.uid;
@@ -93,108 +93,111 @@ class UserEditProfileState extends State<UserEditProfile> {
         ),
         shadowColor: Colors.grey,
       ),
-      body: Column(
-        children: [
-          SizedBox(height: 40),
-          Stack(
-            children: [
-              ClipOval(
-                child:
-                    _image == null
-                        ? Image.network(imageUrl??'https://www.shutterstock.com/image-vector/user-profile-icon-vector-avatar-600nw-2247726673.jpg',height: 150,width: 150,fit: BoxFit.cover,)
-                        : Image.file(
-                          _image!,
-                          width: 120,
-                          height: 120,
-                          fit: BoxFit.cover,
-                        ),
-              ),
-              Positioned(
-                bottom: 5,
-                right: 5,
-      
-                child: InkWell(
-                  onTap: _pickImage,
-                  child: CircleAvatar(
-                    backgroundColor: Colors.blue,
-                    radius: 20,
-                    child: Icon(Icons.camera_alt),
+      body: SingleChildScrollView(
+        child: Column(
+          children: [
+            SizedBox(height: 40),
+            Stack(
+              children: [
+                ClipOval(
+                  child:
+                      _image == null
+                          ? Image.network(imageUrl??'https://www.shutterstock.com/image-vector/user-profile-icon-vector-avatar-600nw-2247726673.jpg',height: 150,width: 150,fit: BoxFit.cover,)
+                          : Image.file(
+                            _image!,
+                            width: 120,
+                            height: 120,
+                            fit: BoxFit.cover,
+                          ),
+                ),
+                Positioned(
+                  bottom: 5,
+                  right: 5,
+        
+                  child: InkWell(
+                    onTap: _pickImage,
+                    child: CircleAvatar(
+                      backgroundColor: Colors.blue,
+                      radius: 20,
+                      child: Icon(Icons.camera_alt),
+                    ),
                   ),
                 ),
+              ],
+            ),
+            SizedBox(height: 80),
+            Container(
+              height: 50,
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(10),
+                color: Colors.blue.shade400,
               ),
-            ],
-          ),
-          SizedBox(height: 80),
-          Container(
-            height: 50,
-            decoration: BoxDecoration(
-              borderRadius: BorderRadius.circular(10),
-              color: Colors.blue.shade400,
-            ),
-            child: TextFormField(
-              controller: nameController,
-              textAlign: TextAlign.center,
-              decoration: InputDecoration(
-                hintText: 'Name',
-                hintStyle: TextStyle(fontSize: 18),
-                border: InputBorder.none,
-              ),
-            ),
-          ),
-      
-          SizedBox(height: 40),
-          Container(
-            height: 50,
-            decoration: BoxDecoration(
-              borderRadius: BorderRadius.circular(10),
-              color: Colors.blue.shade400,
-            ),
-            child: TextFormField(controller: phoneController,
-              textAlign: TextAlign.center,
-              decoration: InputDecoration(
-                hintText: 'Phone Number',
-                hintStyle: TextStyle(fontSize: 18),
-                border: InputBorder.none,
+              child: TextFormField(
+                controller: nameController,
+                textAlign: TextAlign.center,
+                decoration: InputDecoration(
+                  hintText: 'Name',
+                  hintStyle: TextStyle(fontSize: 18),
+                  border: InputBorder.none,
+                ),
               ),
             ),
-          ),
-          SizedBox(height: 40,),
-          Container(width: 100,
-            decoration: BoxDecoration(
-              borderRadius: BorderRadius.circular(10),
-              color: Colors.orange,
-            ),
-            child: TextButton(
-              onPressed: () async{
-                final imageUrl=await Userservices().uploadProfilePicture(_image!);
-                print(imageUrl);
-                Map<String,dynamic> newData={
-                  'firstName':nameController.text,
-                  'phoneNumber':phoneController.text,
-                  'userImageUrl':imageUrl
-                };
-                final result =
-                await  updateUser(newData,userId);
-                if(result==true){
-                  ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text('Userdetails has been updated',),backgroundColor: Colors.green,));
-                  Navigator.pop(context);
-                  loadUserData();
-                }
-                else {
-                  ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text('Userdetails has not been updated',),backgroundColor: Colors.red,));
-                }
-                setState(() {
-                  
-                });
-      
-              },
-              child: Text(
-                'Update',
-                style: TextStyle(fontSize: 20, color: Colors.white),
+        
+            SizedBox(height: 40),
+            Container(
+              height: 50,
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(10),
+                color: Colors.blue.shade400,
+              ),
+              child: TextFormField(controller: phoneController,
+                textAlign: TextAlign.center,
+                decoration: InputDecoration(
+                  hintText: 'Phone Number',
+                  hintStyle: TextStyle(fontSize: 18),
+                  border: InputBorder.none,
+                ),
               ),
             ),
-          ),
-        ],
+            SizedBox(height: 40,),
+            Container(width: 100,
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(10),
+                color: Colors.orange,
+              ),
+              child: TextButton(
+                onPressed: () async{
+                  final imageUrl=await Userservices().uploadProfilePicture(_image!);
+                  print(imageUrl);
+                  Map<String,dynamic> newData={
+                    'firstName':nameController.text,
+                    'phoneNumber':phoneController.text,
+                    'userImageUrl':imageUrl
+                  };
+                  print(newData);
+                  final result =
+                  await  updateUser(newData,userId);
+                  if(result==true){
+                    ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text('Userdetails updated',),backgroundColor: Colors.green,));
+                    Navigator.pop(context);
+                    loadUserData();
+                  }
+                  else {
+                    ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text('Userdetails not updated',),backgroundColor: Colors.red,));
+                  }
+                  setState(() {
+                    
+                  });
+        
+                },
+                child: Text(
+                  'Update',
+                  style: TextStyle(fontSize: 20, color: Colors.white),
+                ),
+              ),
+            ),
+          ],
+        ),
       ),
     );
   }

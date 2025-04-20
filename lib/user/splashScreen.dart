@@ -5,6 +5,7 @@ import 'package:pageflow/admin/homePage.dart';
 import 'package:pageflow/user/signinPage.dart';
 import 'package:pageflow/user/userHomePage.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'dart:async'; 
 
 class Splashscreen extends StatefulWidget {
   const Splashscreen({super.key});
@@ -20,7 +21,7 @@ class _SplashscreenState extends State<Splashscreen> {
     _checkLoginStatus();
   }
 
-  Future<void> _checkLoginStatus() async {
+  Future <void> _checkLoginStatus() async {
     await Future.delayed(const Duration(seconds: 3));
     SharedPreferences prefs = await SharedPreferences.getInstance();
     bool isLoggedIn = prefs.getBool('isLoggedIn') ?? false;

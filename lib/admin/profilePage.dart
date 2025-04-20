@@ -35,13 +35,15 @@ class _AdminProfilePageState extends State<AdminProfilePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(automaticallyImplyLeading: false,
-       
+      appBar: AppBar(
+        automaticallyImplyLeading: false,
+
         title: Text(
           'Admin Dashboard',
           style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
         ),
-        centerTitle: true,shadowColor: Colors.brown.withOpacity(0.5)
+        centerTitle: true,
+        shadowColor: Colors.brown.withOpacity(0.5),
       ),
       body: Padding(
         padding: const EdgeInsets.only(left: 135, top: 50),
@@ -79,7 +81,10 @@ class _AdminProfilePageState extends State<AdminProfilePage> {
                 ),
               ],
             ),
-            Text('Administrator', style: TextStyle(fontSize: 23,fontWeight: FontWeight.w600)),
+            Text(
+              'Administrator',
+              style: TextStyle(fontSize: 23, fontWeight: FontWeight.w600),
+            ),
             SizedBox(height: 15),
             GestureDetector(
               onTap: () {
@@ -92,39 +97,59 @@ class _AdminProfilePageState extends State<AdminProfilePage> {
                 height: 50,
                 width: 150,
 
-                decoration: BoxDecoration(color: Colors.green,
+                decoration: BoxDecoration(
+                  color: Colors.green,
                   borderRadius: BorderRadius.circular(10),
                 ),
-                child: Center(child: Text('EDIT PROFILE', style: TextStyle(fontSize: 17))),
+                child: Center(
+                  child: Text('EDIT PROFILE', style: TextStyle(fontSize: 17)),
+                ),
               ),
             ),
             SizedBox(height: 15),
             GestureDetector(
               onTap: () async {
-                await showDialog(context: context, builder: (BuildContext){
-                  return AlertDialog(title: Text('Are you sure you want to logout',style: TextStyle(fontSize: 16),),actions: [
-                    TextButton(onPressed: (){_logoutState(context);
-
-                    }, child: Text('Yes',style: TextStyle(color: Colors.red),)),TextButton(onPressed: (){
-                      Navigator.of(context).pop();
-                    }, child: Text('No'))
-                  ],);
-                });
-
-
-
-
-
-               
-                
+                await showDialog(
+                  context: context,
+                  builder: (BuildContext) {
+                    return AlertDialog(
+                      title: Text(
+                        'Are you sure you want to logout',
+                        style: TextStyle(fontSize: 16),
+                      ),
+                      actions: [
+                        TextButton(
+                          onPressed: () {
+                            _logoutState(context);
+                          },
+                          child: Text(
+                            'Yes',
+                            style: TextStyle(color: Colors.red),
+                          ),
+                        ),
+                        TextButton(
+                          onPressed: () {
+                            Navigator.of(context).pop();
+                          },
+                          child: Text('No'),
+                        ),
+                      ],
+                    );
+                  },
+                );
               },
 
               child: Container(
-                decoration: BoxDecoration(borderRadius: BorderRadius.circular(10),color: Colors.green,),
-                
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(10),
+                  color: Colors.green,
+                ),
+
                 height: 50,
                 width: 150,
-                child: Center(child: Text('LOG OUT', style: TextStyle(fontSize: 17))),
+                child: Center(
+                  child: Text('LOG OUT', style: TextStyle(fontSize: 17)),
+                ),
               ),
             ),
           ],
@@ -153,13 +178,11 @@ class _AdminProfilePageState extends State<AdminProfilePage> {
   }
 }
 
-void _logoutState(context)async{
-
-  SharedPreferences prefs=await SharedPreferences.getInstance();
+void _logoutState(context) async {
+  SharedPreferences prefs = await SharedPreferences.getInstance();
   await prefs.clear();
   Navigator.pushReplacement(
-                  context,
-                  MaterialPageRoute(builder: (context) => LoginPage()),
-                );
-
+    context,
+    MaterialPageRoute(builder: (context) => LoginPage()),
+  );
 }
