@@ -15,7 +15,8 @@ class _BooksbyCategoryState extends State<BooksbyCategory> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.black,
-      appBar: AppBar(backgroundColor: Colors.black,
+      appBar: AppBar(
+        backgroundColor: Colors.black,
         automaticallyImplyLeading: false,
         title: Row(
           mainAxisAlignment: MainAxisAlignment.center,
@@ -79,13 +80,6 @@ class _BooksbyCategoryState extends State<BooksbyCategory> {
                     children: [
                       Container(
                         decoration: BoxDecoration(
-                          boxShadow: [
-                            BoxShadow(
-                              spreadRadius: 5,
-                              blurRadius: 2,
-                              color: Colors.grey.withOpacity(0.5),
-                            ),
-                          ],
                           borderRadius: BorderRadius.circular(35),
                         ),
                         child: GestureDetector(
@@ -110,7 +104,7 @@ class _BooksbyCategoryState extends State<BooksbyCategory> {
                         ),
                       ),
                       Padding(
-                        padding: const EdgeInsets.only(top: 8.0),
+                        padding: const EdgeInsets.all(10),
                         child: Text(
                           book['title'] ?? 'untitled',
                           style: TextStyle(

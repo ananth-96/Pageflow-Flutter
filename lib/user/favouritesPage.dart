@@ -51,7 +51,7 @@ class FavouritesPage extends StatelessWidget {
           }
           final favBooks = snapshot.data?.docs ?? [];
           if (favBooks.isEmpty) {
-            return Center(child: Text('No books added to Favourite'));
+            return Center(child: Text('No books added to Favourites',style:TextStyle(fontSize: 20,color: Colors.white),));
           }
 
           return Container(

@@ -12,8 +12,8 @@ dependencies:
   image_picker: ^1.1.2
   path_provider: ^2.1.5
   firebase_core: ^3.13.0
-  firebase_auth: ^5.5.2   
-  file_picker: ^10.0.0 
+  firebase_auth: ^5.5.2
+  file_picker: ^10.0.0
   cloud_firestore: ^5.6.6
   firebase_storage: ^12.4.5
   firebase_app_check: ^0.3.2+5
@@ -28,8 +28,7 @@ dependencies:
   audio_session: ^0.2.0
   shared_preferences: ^2.5.3
   lottie: ^3.3.1
-  
-  
+  flutter_launcher_icons: ^0.14.3
 
 dev_dependencies:
   flutter_test:
@@ -41,3 +40,10 @@ flutter:
 
   assets:
     - assets/
+
+flutter_launcher_icons:
+  android: true
+  ios: false
+  image_path: "assets/appicon.png"
+  adaptive_icon_background: "#2196F3" # Optional: For Android adaptive icon
+  adaptive_icon_foreground: "assets/appicon.png"

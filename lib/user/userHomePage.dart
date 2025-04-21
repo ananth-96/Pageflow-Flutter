@@ -3,6 +3,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:pageflow/services/database.dart';
 import 'package:pageflow/user/bookDetailsPage.dart';
+import 'package:pageflow/user/userProfile.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
@@ -12,6 +13,7 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
+
   String searchText = '';
   String userId = FirebaseAuth.instance.currentUser!.uid;
 
@@ -69,62 +71,78 @@ class _HomePageState extends State<HomePage> {
                   });
                 },
               ),
-              SizedBox(height: 20),
-              Text(
-                'Recently Viewed',
-                style: TextStyle(
-                  fontWeight: FontWeight.bold,
-                  color: Colors.white,
-                  fontSize: 18,
-                ),
-              ),
+
               SizedBox(height: 15),
-              SizedBox(
-                height: 200,
-                child: StreamBuilder<List<Map<String, dynamic>>>(
-                  stream: DatabaseServices().getbooks(userId),
-                  builder: (context, snapshot) {
-                    if (snapshot.connectionState == ConnectionState.waiting) {
-                      return Center(child: CircularProgressIndicator());
-                    }
-                    if (!snapshot.hasData || snapshot.data!.isEmpty) {
-                      return Center(child: Text('No recently viewed books'));
-                    }
-                    final books = snapshot.data!;
-                    return ListView.builder(
-                      scrollDirection: Axis.horizontal,
-                      itemCount: books.length,
-                      itemBuilder: (context, index) {
-                        final book = books[index];
-                        return Padding(
-                          padding: const EdgeInsets.all(8.0),
-                          child: GestureDetector(
-                            onTap: (){
-                              Navigator.push(context, MaterialPageRoute(builder: (context)=>BookDetailsPage(bookData:book)));
-                            },
-                            child: Container(
-                              width: 170,
-                              decoration: BoxDecoration(
-                                borderRadius: BorderRadius.circular(20),
-                                color: Colors.white,
-                              ),
-                              child: ClipRRect(
-                                borderRadius: BorderRadius.circular(20),
-                                child: Image.network(
-                                  book['bookCoverUrl'] ?? '',
-                                  fit: BoxFit.cover,
-                                  errorBuilder:
-                                      (context, error, stackTrace) =>
-                                          const Icon(Icons.broken_image),
+              StreamBuilder<List<Map<String, dynamic>>>(
+                stream: DatabaseServices().getbooks(userId),
+                builder: (context, snapshot) {
+                  if (snapshot.connectionState == ConnectionState.waiting) {
+                    return Center(child: CircularProgressIndicator());
+                  }
+                  if (!snapshot.hasData || snapshot.data!.isEmpty) {
+                    return SizedBox.shrink();
+                  }
+                  final books = snapshot.data!;
+
+                  return Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      SizedBox(height: 20),
+                      Text(
+                        'Recently Viewed',
+                        style: TextStyle(
+                          fontWeight: FontWeight.bold,
+                          color: Colors.white,
+                          fontSize: 18,
+                        ),
+                      ),
+                      SizedBox(
+                        height: 200,
+                        child: ListView.builder(
+                          shrinkWrap: true,
+                          
+                          scrollDirection: Axis.horizontal,
+                          itemCount: books.length,
+                          itemBuilder: (context, index) {
+                            final book = books[index];
+                            return Padding(
+                              padding: const EdgeInsets.all(8.0),
+                              child: GestureDetector(
+                                onTap: () {
+                                  Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                      builder:
+                                          (context) =>
+                                              BookDetailsPage(bookData: book),
+                                    ),
+                                  );
+                                },
+                                child: Container(
+                                  width: 170,
+                                  decoration: BoxDecoration(
+                                    borderRadius: BorderRadius.circular(20),
+                                    color: Colors.white,
+                                  ),
+                                  child: ClipRRect(
+                                    borderRadius: BorderRadius.circular(20),
+                                    child: Image.network(
+                                      book['bookCoverUrl'] ?? '',
+                                      fit: BoxFit.cover,
+                                      errorBuilder:
+                                          (context, error, stackTrace) =>
+                                              const Icon(Icons.broken_image),
+                                    ),
+                                  ),
                                 ),
                               ),
-                            ),
-                          ),
-                        );
-                      },
-                    );
-                  },
-                ),
+                            );
+                          },
+                        ),
+                      ),
+                    ],
+                  );
+                },
               ),
               SizedBox(height: 15),
               Text(
@@ -198,7 +216,7 @@ class _HomePageState extends State<HomePage> {
                               bottomRight: Radius.circular(15),
                             ),
                           ),
-                          elevation: 5,
+                          elevation:2,
                           child: Column(
                             crossAxisAlignment: CrossAxisAlignment.center,
                             children: [
@@ -207,10 +225,10 @@ class _HomePageState extends State<HomePage> {
                                   decoration: BoxDecoration(
                                     boxShadow: [
                                       BoxShadow(
-                                        color: Colors.grey.withOpacity(0.8),
-                                        spreadRadius: 2,
-                                        blurRadius: 6,
-                                        offset: const Offset(4, 3),
+                                        color: const Color.fromARGB(255, 97, 97, 97).withOpacity(0.8),
+                                        spreadRadius: 5,
+                                        blurRadius: 1,
+                                        
                                       ),
                                     ],
                                   ),

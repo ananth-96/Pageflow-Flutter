@@ -4,6 +4,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:pageflow/user/deleteAccount.dart';
 import 'package:pageflow/user/editProfilePage.dart';
 import 'package:pageflow/user/privacyPolicy.dart';
 import 'package:pageflow/user/signinPage.dart';
@@ -13,7 +14,7 @@ import 'package:path_provider/path_provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class UserProfilePage extends StatefulWidget {
-  const UserProfilePage({super.key});
+  const UserProfilePage({Key? key}):super(key:key);
 
   @override
   State<UserProfilePage> createState() => UserProfilePageState();
@@ -21,27 +22,40 @@ class UserProfilePage extends StatefulWidget {
 
 class UserProfilePageState extends State<UserProfilePage> {
   File? _image;
-  String fullName = 'User Name';
+  String? fullName;
   String imageUrl =
       'https://www.shutterstock.com/image-vector/user-profile-icon-vector-avatar-600nw-2247726673.jpg';
+      bool isLoading=true;
   @override
   void initState() {
     super.initState();
     loadUserData();
   }
 
+
   Future<void> loadUserData() async {
     final userData = await getUserProfile();
     if (userData != null) {
       setState(() {
-        fullName = "${userData['firstName']}${userData['lastName']}";
-        imageUrl = userData['userImageUrl'];
-        print(fullName);
+        print(userData);
+        fullName = "${userData['firstName']}";
+        imageUrl = userData['userImageUrl']??imageUrl;
+        isLoading=false;
+        print('This is user : $fullName');
         print(imageUrl);
       });
     }
+    else{
+      setState(() {
+        isLoading=false;
+      });
+    }
   }
-
+  @override
+  void didChangeDependencies() {
+  super.didChangeDependencies();
+  loadUserData(); // reload user data when the widget is rebuilt
+}
   Future<void> _pickImage() async {
     final pickedFile = await ImagePicker().pickImage(
       source: ImageSource.gallery,
@@ -106,7 +120,7 @@ class UserProfilePageState extends State<UserProfilePage> {
                   backgroundImage: NetworkImage(imageUrl),
                 ),
                 Text(
-                  fullName,
+                  fullName??'',
                   style: TextStyle(
                     fontSize: 23,
                     fontWeight: FontWeight.w600,
@@ -249,7 +263,7 @@ class UserProfilePageState extends State<UserProfilePage> {
                     onTap: () async {
                       await showDialog(
                         context: context,
-                        builder: (BuildContext) {
+                        builder: (BuildContext context) {
                           return AlertDialog(
                             title: Text(
                               'Are you sure you want to logout',
@@ -282,6 +296,39 @@ class UserProfilePageState extends State<UserProfilePage> {
                     child: Center(
                       child: Text(
                         'Logout',
+                        style: TextStyle(
+                          fontSize: 18,
+                          color: Colors.white,
+                          fontWeight: FontWeight.w600,
+                        ),
+                      ),
+                    ),
+                  ),
+                ),
+                SizedBox(height: 10),
+                Container(
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(10),
+                    color: Colors.blue.shade900,
+                  ),
+                  width: double.infinity,
+                  height: 50,
+                  child: Center(
+                    child: GestureDetector(
+                      onTap: () async {
+                        await showDialog(context: context, builder: (BuildContext context)
+                        {
+                          return AlertDialog(title: Text('Are you sure you want to delete the account permanently ?'),actions: [TextButton(onPressed: (){
+                              Deleteaccount.deleteUserAccount();
+                              Navigator.pushReplacement(context, MaterialPageRoute(builder: (context)=>LoginPage()));
+                          }, child: Text('Yes',style: TextStyle(color: Colors.red),)),TextButton(onPressed: (){
+                            Navigator.of(context).pop();
+                          }, child: Text('No'))],);
+                        });
+                        
+                      },
+                      child: Text(
+                        'Delete User Account',
                         style: TextStyle(
                           fontSize: 18,
                           color: Colors.white,

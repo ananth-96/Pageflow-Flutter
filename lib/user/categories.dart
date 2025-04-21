@@ -88,15 +88,10 @@ class CategoryListViewForUser extends StatelessWidget {
                       final category =
                           categoryDocs[index].data() as Map<String, dynamic>;
                       
-                      return Container(decoration: BoxDecoration(borderRadius: BorderRadius.circular(20),
-                          boxShadow: [
-                            BoxShadow(
-                              color: Colors.grey.withOpacity(0.5),
-                              spreadRadius: 4,
-                              blurRadius: 3,
-                              offset: Offset(3, 3),
-                            ),
-                          ],
+                      return Container(
+                        decoration: BoxDecoration(borderRadius: BorderRadius.circular(20),
+                          
+                          
                         ),
                         child: InkWell(
                             onTap: (){
@@ -108,7 +103,7 @@ class CategoryListViewForUser extends StatelessWidget {
                               child: Column(
                                 children: [
                                   Container(
-                                    height:   160,
+                                    height:   150,
                                     decoration: BoxDecoration(
                                       image: DecorationImage(
                                         image:
@@ -122,14 +117,17 @@ class CategoryListViewForUser extends StatelessWidget {
                                       ),
                                     ),
                                   ),
-                                   Text(
-                                    category['category'] ?? 'Unnamed',
-                                    style: TextStyle(
-                                      fontSize: 16,
-                                      color: Colors.black,
-                                      fontWeight: FontWeight.bold
-                                    ),
-                                  ),
+                                   Padding(
+                                     padding: const EdgeInsets.all(8.0),
+                                     child: Text(maxLines: 2,overflow: TextOverflow.ellipsis,
+                                      category['category'] ?? 'Unnamed',textAlign: TextAlign.center,
+                                      style: TextStyle(
+                                        fontSize: 14,
+                                        color: Colors.black,
+                                        fontWeight: FontWeight.bold
+                                      ),
+                                                                       ),
+                                   ),
                                 ],
                               ),
                             ),

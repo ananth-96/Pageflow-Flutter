@@ -17,10 +17,11 @@ class MyHomePage extends StatefulWidget {
 }
 
 class MyHomePageState extends State<MyHomePage> {
+  
   final Color navigationBarColor = Colors.black;
   int selectedIndex = 0;
   late PageController pageController;
-
+final GlobalKey<UserProfilePageState> profilePageKey = GlobalKey<UserProfilePageState>();
   @override
   void initState() {
     super.initState();
@@ -45,11 +46,11 @@ class MyHomePageState extends State<MyHomePage> {
           controller: pageController,
           physics: const NeverScrollableScrollPhysics(),
           onPageChanged: onPageChanged,
-          children: const [
+          children:  [
             HomePage(),
             UserCategories(),
             FavouritesPage(),
-            UserProfilePage(),
+            UserProfilePage(key: profilePageKey),
             UserEditProfile(),
             
           ],
@@ -66,6 +67,9 @@ class MyHomePageState extends State<MyHomePage> {
                 duration: const Duration(milliseconds: 300),
                 curve: Curves.easeOut,
               );
+               if (index == 3) { // Assuming profile page is at index 3
+      profilePageKey.currentState?.loadUserData();
+    }
             });
           },
           selectedIndex: selectedIndex,

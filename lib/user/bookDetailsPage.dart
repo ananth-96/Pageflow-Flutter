@@ -175,12 +175,12 @@ class _BookDetailsPageState extends State<BookDetailsPage> {
                     Navigator.of(context).push(MaterialPageRoute(builder: (context)=>Viewpdf(pdfUrl: widget.bookData['pdfUrl'],)));
                    }
                   },
-                  icon: Icon(Icons.picture_as_pdf_rounded),
+                  icon: Icon(Icons.picture_as_pdf_rounded,color: Colors.black,),
                 ),
                 SizedBox(width: 10),
                 CustomCircularIconButton(
                   onPressed: (){Navigator.of(context).push(MaterialPageRoute(builder: (context)=>MusicView(userData:widget.bookData)));},
-                icon: Icon(Icons.play_circle_fill_outlined),
+                icon: Icon(Icons.play_circle_fill_outlined,color: Colors.black,),
                 ),
                
               ],

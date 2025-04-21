@@ -128,23 +128,27 @@ class _MusicViewState extends State<MusicView> {
                           children: [
                               
                     
-                             Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                SizedBox(height: 30,),
-                                Text(
-                                  widget.userData['title'],
-                                  style: TextStyle(
-                                      color: Colors.white,
-                                      fontSize: 34,
-                                      fontWeight: FontWeight.w600),
-                                ),
-                                Text(
-                                  widget.userData['authorName'],
-                                  style: TextStyle(color: Colors.grey),
-                                ),
-                              ],
-                            ),
+                             Expanded(
+                               child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.center,
+                                children: [
+                                  SizedBox(height: 30,),
+                                  Text(textAlign: TextAlign.center,
+                                    maxLines: 2,
+                                    overflow: TextOverflow.ellipsis,
+                                    widget.userData['title'],
+                                    style: TextStyle(
+                                        color: Colors.white,
+                                        fontSize: 22,
+                                        fontWeight: FontWeight.w600),
+                                  ),
+                                  Text(
+                                    widget.userData['authorName'],
+                                    style: TextStyle(color: Colors.grey),
+                                  ),
+                                ],
+                                                           ),
+                             ),
                             
                           ],
                         ),
